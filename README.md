@@ -348,4 +348,4 @@ Ready to use the Alumni Platform?
 
 **Last Updated:** March 2026  
 **Version:** 1.0.0  
-**Built with ❤️ for Alumni Networks**
+**Built with Atharv for Alumni Networks**
