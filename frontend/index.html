@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alumni Platform - Connect, Engage, Grow</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                AlumniConnect
+            </a>
+            
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#directory">Directory</a></li>
+                <li><a href="events.html">Events</a></li>
+                <li><a href="news.html">News</a></li>
+                <li><a href="jobs.html">Jobs</a></li>
+                <li><a href="mentorship.html">Mentorship</a></li>
+                <div class="auth-buttons" id="auth-buttons">
+                    <a href="login.html" class="btn btn-outline">Login</a>
+                    <a href="register.html" class="btn">Register</a>
+                </div>
+                <div class="user-menu" id="user-menu" style="display: none;">
+                    <span id="user-name">Welcome, User!</span>
+                    <a href="dashboard.html" class="btn btn-outline">Dashboard</a>
+                    <button onclick="logout()" class="btn btn-accent">Logout</button>
+                </div>
+            </ul>
+        </div>
+    </header>
+    
+    <section class="hero">
+        <div class="container hero-content">
+            <h1>Connect With Your College Community</h1>
+            <p>Reconnect with old friends, network with professionals, and discover opportunities with your alma mater's alumni network.</p>
+            <div class="hero-buttons">
+                <a href="register.html" class="btn">Join Now</a>
+                <a href="#directory" class="btn btn-outline">Find Alumni</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>Why Join Our Network?</h2>
+                <p>Our platform offers numerous benefits to help you stay connected and grow professionally</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-network-wired"></i>
+                    </div>
+                    <h3>Networking</h3>
+                    <p>Connect with alumni across various industries and build valuable professional relationships.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <h3>Career Opportunities</h3>
+                    <p>Access exclusive job postings, internships, and mentorship opportunities from fellow alumni.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <h3>Events</h3>
+                    <p>Participate in reunions, webinars, workshops, and networking events organized just for alumni.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-newspaper"></i>
+                    </div>
+                    <h3>Latest News</h3>
+                    <p>Stay updated with the latest news, achievements, and developments from your alma mater.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="alumni-directory" id="directory">
+        <div class="container">
+            <div class="section-title">
+                <h2>Alumni Directory</h2>
+                <p>Find and connect with fellow alumni from your graduation year, industry, or location</p>
+            </div>
+            
+            <div class="search-bar">
+                <input type="text" id="alumni-search" placeholder="Search by name, graduation year, company, or location...">
+                <button onclick="searchAlumni()"><i class="fas fa-search"></i></button>
+            </div>
+            
+            <div class="alumni-grid" id="alumni-grid">
+                <!-- Alumni cards will be loaded dynamically -->
+                <div class="loading-spinner">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Loading alumni...</p>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 40px;">
+                <button class="btn" onclick="viewAllAlumni()">
+                    <i class="fas fa-users"></i> View All Alumni
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <section class="events" id="events">
+        <div class="container">
+            <div class="section-title">
+                <h2>Upcoming Events</h2>
+                <p>Join our upcoming events to network, learn, and reconnect with the community</p>
+            </div>
+            
+            <div class="events-grid" id="events-grid">
+                <!-- Events will be loaded dynamically -->
+                <div class="loading-spinner">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Loading events...</p>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 40px;">
+                <button class="btn" onclick="viewAllEvents()">
+                    <i class="fas fa-calendar-alt"></i> View All Events
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <section class="news" id="news">
+        <div class="container">
+            <div class="section-title">
+                <h2>Alumni News & Updates</h2>
+                <p>Stay informed about the latest achievements and news from our alumni community</p>
+            </div>
+            
+            <div class="news-grid" id="news-grid">
+                <!-- News will be loaded dynamically -->
+                <div class="loading-spinner">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Loading news...</p>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 40px;">
+                <button class="btn" onclick="viewAllNews()">
+                    <i class="fas fa-newspaper"></i> View All News
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonials">
+        <div class="container">
+            <div class="section-title">
+                <h2>What Our Alumni Say</h2>
+                <p>Hear from graduates who have benefited from our alumni network</p>
+            </div>
+            
+            <div class="testimonial-slider">
+                <div class="testimonial">
+                    <p class="testimonial-text">The alumni network helped me find my current position through a connection I made at an event. The relationships I've built have been invaluable to my career growth.</p>
+                    <div class="testimonial-author">David Kim</div>
+                    <div class="testimonial-role">Class of 2012, Product Manager at TechVision</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3>AlumniConnect</h3>
+                    <p>Stay connected with your alma mater and fellow graduates through our comprehensive alumni network platform.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="#directory">Directory</a></li>
+                        <li><a href="events.html">Events</a></li>
+                        <li><a href="news.html">News</a></li>
+                        <li><a href="jobs.html">Jobs</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="#">Career Services</a></li>
+                        <li><a href="mentorship.html">Mentorship Program</a></li>
+                        <li><a href="#">Volunteer Opportunities</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Contact Us</h3>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> 123 University Ave, City, State</li>
+                        <li><i class="fas fa-phone"></i> (555) 123-4567</li>
+                        <li><i class="fas fa-envelope"></i> alumni@university.edu</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2024 AlumniConnect. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

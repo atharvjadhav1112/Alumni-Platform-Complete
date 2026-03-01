@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events - AlumniConnect</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                AlumniConnect
+            </a>
+            
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#directory">Directory</a></li>
+                <li><a href="events.html" class="active">Events</a></li>
+                <li><a href="news.html">News</a></li>
+                <li><a href="jobs.html">Jobs</a></li>
+                <li><a href="mentorship.html">Mentorship</a></li>
+                <div class="auth-buttons" id="auth-buttons">
+                    <a href="login.html" class="btn btn-outline">Login</a>
+                    <a href="register.html" class="btn">Register</a>
+                </div>
+                <div class="user-menu" id="user-menu" style="display: none;">
+                    <span id="user-name">Welcome, User!</span>
+                    <a href="dashboard.html" class="btn btn-outline">Dashboard</a>
+                    <button onclick="logout()" class="btn btn-accent">Logout</button>
+                </div>
+            </ul>
+        </div>
+    </header>
+
+    <section class="events">
+        <div class="container">
+            <div class="section-title">
+                <h2>Upcoming Events</h2>
+                <p>Join our upcoming events to network, learn, and reconnect with the community</p>
+            </div>
+            
+            <!-- Event Filters -->
+            <div class="event-filters">
+                <div class="search-bar">
+                    <input type="text" id="event-search" placeholder="Search events...">
+                    <button onclick="searchEvents()"><i class="fas fa-search"></i></button>
+                </div>
+                <div class="filter-buttons">
+                    <button class="filter-btn active" onclick="filterEvents('all')">All</button>
+                    <button class="filter-btn" onclick="filterEvents('Networking')">Networking</button>
+                    <button class="filter-btn" onclick="filterEvents('Workshop')">Workshop</button>
+                    <button class="filter-btn" onclick="filterEvents('Conference')">Conference</button>
+                    <button class="filter-btn" onclick="filterEvents('Social')">Social</button>
+                </div>
+            </div>
+            
+            <div class="events-grid" id="events-grid">
+                <div class="loading-spinner">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Loading events...</p>
+                </div>
+            </div>
+            
+            <!-- Create Event Button (for logged in users) -->
+            <div id="create-event-section" style="display: none; text-align: center; margin-top: 40px;">
+                <button class="btn" onclick="showCreateEventModal()">
+                    <i class="fas fa-plus"></i> Create New Event
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Create Event Modal -->
+    <div id="create-event-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Create New Event</h3>
+                <button class="close-btn" onclick="closeCreateEventModal()">&times;</button>
+            </div>
+            <form id="create-event-form">
+                <div class="form-group">
+                    <label for="event-title">Event Title</label>
+                    <input type="text" id="event-title" name="title" required>
+                </div>
+                <div class="form-group">
+                    <label for="event-description">Description</label>
+                    <textarea id="event-description" name="description" rows="4" required></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="event-date">Date</label>
+                        <input type="date" id="event-date" name="date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="event-time">Time</label>
+                        <input type="time" id="event-time" name="time" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="event-location">Location</label>
+                    <input type="text" id="event-location" name="location" required>
+                </div>
+                <div class="form-group">
+                    <label for="event-address">Address</label>
+                    <input type="text" id="event-address" name="address" required>
+                </div>
+                <div class="form-group">
+                    <label for="event-type">Event Type</label>
+                    <select id="event-type" name="eventType" required>
+                        <option value="">Select event type</option>
+                        <option value="Networking">Networking</option>
+                        <option value="Workshop">Workshop</option>
+                        <option value="Conference">Conference</option>
+                        <option value="Reunion">Reunion</option>
+                        <option value="Social">Social</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="max-attendees">Max Attendees (optional)</label>
+                        <input type="number" id="max-attendees" name="maxAttendees" min="1">
+                    </div>
+                    <div class="form-group">
+                        <label for="registration-deadline">Registration Deadline</label>
+                        <input type="date" id="registration-deadline" name="registrationDeadline">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="is-virtual" name="isVirtual">
+                        Virtual Event
+                    </label>
+                </div>
+                <div class="form-group" id="virtual-link-group" style="display: none;">
+                    <label for="virtual-link">Virtual Meeting Link</label>
+                    <input type="url" id="virtual-link" name="virtualLink">
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-outline" onclick="closeCreateEventModal()">Cancel</button>
+                    <button type="submit" class="btn">Create Event</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3>AlumniConnect</h3>
+                    <p>Stay connected with your alma mater and fellow graduates through our comprehensive alumni network platform.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="index.html#directory">Directory</a></li>
+                        <li><a href="events.html">Events</a></li>
+                        <li><a href="news.html">News</a></li>
+                        <li><a href="jobs.html">Jobs</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="#">Career Services</a></li>
+                        <li><a href="mentorship.html">Mentorship Program</a></li>
+                        <li><a href="#">Volunteer Opportunities</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Contact Us</h3>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> 123 University Ave, City, State</li>
+                        <li><i class="fas fa-phone"></i> (555) 123-4567</li>
+                        <li><i class="fas fa-envelope"></i> alumni@university.edu</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2024 AlumniConnect. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Events page specific functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            loadEvents();
+            checkAuthStatus();
+        });
+        
+        async function loadEvents() {
+            try {
+                const response = await apiCall('/events');
+                displayEvents(response);
+            } catch (error) {
+                console.error('Error loading events:', error);
+                // Show sample events if API fails
+                const sampleEvents = [
+                    {
+                        _id: '1',
+                        title: 'Annual Alumni Meetup',
+                        description: 'Join us for our yearly gathering of graduates from all years and programs.',
+                        date: '2024-06-15',
+                        time: '18:00',
+                        location: 'Campus Hall',
+                        address: '123 University Ave, City, State',
+                        eventType: 'Networking',
+                        maxAttendees: 100,
+                        currentAttendees: 45,
+                        isVirtual: false,
+                        organizer: { firstName: 'John', lastName: 'Smith' }
+                    },
+                    {
+                        _id: '2',
+                        title: 'Career Networking Workshop',
+                        description: 'Learn how to leverage your alumni network for career advancement.',
+                        date: '2024-06-22',
+                        time: '14:00',
+                        location: 'Virtual Event',
+                        address: 'Online',
+                        eventType: 'Workshop',
+                        maxAttendees: 50,
+                        currentAttendees: 23,
+                        isVirtual: true,
+                        virtualLink: 'https://meet.google.com/abc-defg-hij',
+                        organizer: { firstName: 'Sarah', lastName: 'Johnson' }
+                    }
+                ];
+                displayEvents(sampleEvents);
+            }
+        }
+        
+        function displayEvents(events) {
+            const eventsGrid = document.getElementById('events-grid');
+            if (!eventsGrid) return;
+            
+            eventsGrid.innerHTML = events.map(event => {
+                const eventDate = new Date(event.date);
+                const day = eventDate.getDate();
+                const month = eventDate.toLocaleDateString('en-US', { month: 'short' });
+                const time = event.time ? new Date(`2000-01-01T${event.time}`).toLocaleTimeString('en-US', { 
+                    hour: 'numeric', 
+                    minute: '2-digit',
+                    hour12: true 
+                }) : 'TBD';
+                
+                return `
+                    <div class="event-card" data-type="${event.eventType}">
+                        <div class="event-date">
+                            <div class="day">${day}</div>
+                            <div class="month">${month}</div>
+                        </div>
+                        <div class="event-info">
+                            <h3>${event.title}</h3>
+                            <p>${event.description}</p>
+                            <div class="event-details">
+                                <span><i class="fas fa-clock"></i> ${time}</span>
+                                <span><i class="fas fa-map-marker-alt"></i> ${event.location}</span>
+                            </div>
+                            <div class="event-meta">
+                                <span class="event-type">${event.eventType}</span>
+                                <span class="attendees">${event.currentAttendees}${event.maxAttendees ? `/${event.maxAttendees}` : ''} attendees</span>
+                            </div>
+                            <div class="event-actions">
+                                <button class="btn btn-accent" onclick="registerForEvent('${event._id}')">
+                                    Register
+                                </button>
+                                ${event.isVirtual ? `<a href="${event.virtualLink}" target="_blank" class="btn btn-outline">Join Online</a>` : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        function searchEvents() {
+            const searchTerm = document.getElementById('event-search').value.toLowerCase();
+            const eventCards = document.querySelectorAll('.event-card');
+            
+            eventCards.forEach(card => {
+                const text = card.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+        
+        function filterEvents(type) {
+            const eventCards = document.querySelectorAll('.event-card');
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            
+            // Update active button
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            eventCards.forEach(card => {
+                if (type === 'all' || card.dataset.type === type) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+        
+        async function registerForEvent(eventId) {
+            if (!currentUser) {
+                showMessage('Please login to register for events', 'error');
+                return;
+            }
+            
+            try {
+                await apiCall(`/events/${eventId}/register`, {
+                    method: 'POST'
+                });
+                showMessage('Successfully registered for event!', 'success');
+                loadEvents(); // Refresh events
+            } catch (error) {
+                showMessage(error.message, 'error');
+            }
+        }
+        
+        function showCreateEventModal() {
+            document.getElementById('create-event-modal').style.display = 'flex';
+        }
+        
+        function closeCreateEventModal() {
+            document.getElementById('create-event-modal').style.display = 'none';
+            document.getElementById('create-event-form').reset();
+        }
+        
+        // Handle virtual event checkbox
+        document.getElementById('is-virtual').addEventListener('change', function() {
+            const virtualLinkGroup = document.getElementById('virtual-link-group');
+            virtualLinkGroup.style.display = this.checked ? 'block' : 'none';
+        });
+        
+        // Handle create event form
+        document.getElementById('create-event-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            if (!currentUser) {
+                showMessage('Please login to create events', 'error');
+                return;
+            }
+            
+            const formData = new FormData(e.target);
+            const eventData = Object.fromEntries(formData.entries());
+            
+            // Convert date and time
+            if (eventData.date && eventData.time) {
+                eventData.date = new Date(`${eventData.date}T${eventData.time}`);
+            }
+            
+            try {
+                await apiCall('/events', {
+                    method: 'POST',
+                    body: JSON.stringify(eventData)
+                });
+                showMessage('Event created successfully!', 'success');
+                closeCreateEventModal();
+                loadEvents();
+            } catch (error) {
+                showMessage(error.message, 'error');
+            }
+        });
+    </script>
+</body>
+</html>

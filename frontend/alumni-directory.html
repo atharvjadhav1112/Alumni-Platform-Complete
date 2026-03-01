@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alumni Directory - AlumniConnect</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                AlumniConnect
+            </a>
+            
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="alumni-directory.html" class="active">Directory</a></li>
+                <li><a href="events.html">Events</a></li>
+                <li><a href="news.html">News</a></li>
+                <li><a href="jobs.html">Jobs</a></li>
+                <li><a href="mentorship.html">Mentorship</a></li>
+                <div class="auth-buttons" id="auth-buttons">
+                    <a href="login.html" class="btn btn-outline">Login</a>
+                    <a href="register.html" class="btn">Register</a>
+                </div>
+                <div class="user-menu" id="user-menu" style="display: none;">
+                    <span id="user-name">Welcome, User!</span>
+                    <a href="dashboard.html" class="btn btn-outline">Dashboard</a>
+                    <button onclick="logout()" class="btn btn-accent">Logout</button>
+                </div>
+            </ul>
+        </div>
+    </header>
+
+    <section class="alumni-directory">
+        <div class="container">
+            <div class="section-title">
+                <h2>Alumni Directory</h2>
+                <p>Connect with fellow alumni from your graduation year, industry, or location</p>
+            </div>
+            
+            <!-- Advanced Search and Filters -->
+            <div class="alumni-filters">
+                <div class="search-bar">
+                    <input type="text" id="alumni-search" placeholder="Search by name, graduation year, company, or location...">
+                    <button onclick="searchAlumni()"><i class="fas fa-search"></i></button>
+                </div>
+                <div class="filter-row">
+                    <div class="filter-group">
+                        <label for="department-filter">Department</label>
+                        <select id="department-filter" onchange="filterAlumni()">
+                            <option value="">All Departments</option>
+                            <option value="Computer Science">Computer Science</option>
+                            <option value="Business">Business</option>
+                            <option value="Engineering">Engineering</option>
+                            <option value="Medicine">Medicine</option>
+                            <option value="Economics">Economics</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="graduation-year-filter">Graduation Year</label>
+                        <select id="graduation-year-filter" onchange="filterAlumni()">
+                            <option value="">All Years</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="location-filter">Location</label>
+                        <select id="location-filter" onchange="filterAlumni()">
+                            <option value="">All Locations</option>
+                            <option value="San Francisco">San Francisco</option>
+                            <option value="New York">New York</option>
+                            <option value="Chicago">Chicago</option>
+                            <option value="Boston">Boston</option>
+                            <option value="Remote">Remote</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Alumni Stats -->
+            <div class="alumni-stats">
+                <div class="stat-item">
+                    <i class="fas fa-users"></i>
+                    <span id="total-alumni">0</span>
+                    <label>Total Alumni</label>
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-building"></i>
+                    <span id="companies-count">0</span>
+                    <label>Companies</label>
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-globe"></i>
+                    <span id="locations-count">0</span>
+                    <label>Locations</label>
+                </div>
+            </div>
+            
+            <div class="alumni-grid" id="alumni-grid">
+                <div class="loading-spinner">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Loading alumni...</p>
+                </div>
+            </div>
+            
+            <!-- Load More Button -->
+            <div style="text-align: center; margin-top: 40px;">
+                <button class="btn" onclick="loadMoreAlumni()" id="load-more-btn" style="display: none;">
+                    <i class="fas fa-plus"></i> Load More Alumni
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3>AlumniConnect</h3>
+                    <p>Stay connected with your alma mater and fellow graduates through our comprehensive alumni network platform.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="alumni-directory.html">Directory</a></li>
+                        <li><a href="events.html">Events</a></li>
+                        <li><a href="news.html">News</a></li>
+                        <li><a href="jobs.html">Jobs</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="#">Career Services</a></li>
+                        <li><a href="mentorship.html">Mentorship Program</a></li>
+                        <li><a href="#">Volunteer Opportunities</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Contact Us</h3>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> 123 University Ave, City, State</li>
+                        <li><i class="fas fa-phone"></i> (555) 123-4567</li>
+                        <li><i class="fas fa-envelope"></i> alumni@university.edu</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2024 AlumniConnect. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Alumni Directory specific functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            loadAlumniDirectory();
+            checkAuthStatus();
+            populateGraduationYears();
+        });
+        
+        async function loadAlumniDirectory() {
+            try {
+                const response = await apiCall('/alumni');
+                const alumni = response.alumni || response;
+                
+                if (alumni && alumni.length > 0) {
+                    displayAlumni(alumni);
+                    updateAlumniStats(alumni);
+                } else {
+                    // Show sample data if no alumni in database
+                    const sampleAlumni = [
+                        {
+                            firstName: 'John',
+                            lastName: 'Anderson',
+                            graduationYear: 2010,
+                            department: 'Business Administration',
+                            currentJob: { title: 'VP of Marketing', company: 'TechCorp', location: 'San Francisco' },
+                            profilePicture: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80'
+                        },
+                        {
+                            firstName: 'Sarah',
+                            lastName: 'Johnson',
+                            graduationYear: 2015,
+                            department: 'Computer Science',
+                            currentJob: { title: 'Senior Software Engineer', company: 'DataSoft', location: 'New York' },
+                            profilePicture: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80'
+                        },
+                        {
+                            firstName: 'Michael',
+                            lastName: 'Chen',
+                            graduationYear: 2008,
+                            department: 'Medicine',
+                            currentJob: { title: 'Chief Medical Officer', company: 'HealthPlus', location: 'Boston' },
+                            profilePicture: 'https://images.unsplash.com/photo-1552058544-f2b08422138a?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80'
+                        },
+                        {
+                            firstName: 'Emily',
+                            lastName: 'Rodriguez',
+                            graduationYear: 2012,
+                            department: 'Economics',
+                            currentJob: { title: 'Finance Director', company: 'Global Bank', location: 'Chicago' },
+                            profilePicture: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80'
+                        }
+                    ];
+                    displayAlumni(sampleAlumni);
+                    updateAlumniStats(sampleAlumni);
+                }
+            } catch (error) {
+                console.error('Error loading alumni:', error);
+                document.getElementById('alumni-grid').innerHTML = '<p style="text-align: center; color: var(--muted);">Error loading alumni. Please try again later.</p>';
+            }
+        }
+        
+        function updateAlumniStats(alumni) {
+            const totalAlumni = alumni.length;
+            const companies = new Set(alumni.map(a => a.currentJob?.company).filter(Boolean));
+            const locations = new Set(alumni.map(a => a.currentJob?.location).filter(Boolean));
+            
+            document.getElementById('total-alumni').textContent = totalAlumni;
+            document.getElementById('companies-count').textContent = companies.size;
+            document.getElementById('locations-count').textContent = locations.size;
+        }
+        
+        function populateGraduationYears() {
+            const select = document.getElementById('graduation-year-filter');
+            const currentYear = new Date().getFullYear();
+            
+            for (let year = currentYear; year >= 1950; year--) {
+                const option = document.createElement('option');
+                option.value = year;
+                option.textContent = year;
+                select.appendChild(option);
+            }
+        }
+        
+        function filterAlumni() {
+            const departmentFilter = document.getElementById('department-filter').value;
+            const yearFilter = document.getElementById('graduation-year-filter').value;
+            const locationFilter = document.getElementById('location-filter').value;
+            
+            const alumniCards = document.querySelectorAll('.alumni-card');
+            
+            alumniCards.forEach(card => {
+                let show = true;
+                
+                if (departmentFilter && !card.dataset.department?.includes(departmentFilter)) {
+                    show = false;
+                }
+                
+                if (yearFilter && card.dataset.graduationYear !== yearFilter) {
+                    show = false;
+                }
+                
+                if (locationFilter && !card.dataset.location?.includes(locationFilter)) {
+                    show = false;
+                }
+                
+                card.style.display = show ? 'block' : 'none';
+            });
+        }
+    </script>
+</body>
+</html>
+

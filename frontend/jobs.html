@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jobs - AlumniConnect</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                AlumniConnect
+            </a>
+            
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#directory">Directory</a></li>
+                <li><a href="events.html">Events</a></li>
+                <li><a href="news.html">News</a></li>
+                <li><a href="jobs.html" class="active">Jobs</a></li>
+                <li><a href="mentorship.html">Mentorship</a></li>
+                <div class="auth-buttons" id="auth-buttons">
+                    <a href="login.html" class="btn btn-outline">Login</a>
+                    <a href="register.html" class="btn">Register</a>
+                </div>
+                <div class="user-menu" id="user-menu" style="display: none;">
+                    <span id="user-name">Welcome, User!</span>
+                    <a href="dashboard.html" class="btn btn-outline">Dashboard</a>
+                    <button onclick="logout()" class="btn btn-accent">Logout</button>
+                </div>
+            </ul>
+        </div>
+    </header>
+
+    <section class="jobs-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Job Opportunities</h2>
+                <p>Discover exclusive job opportunities posted by fellow alumni and companies</p>
+            </div>
+            
+            <!-- Job Filters -->
+            <div class="job-filters">
+                <div class="search-bar">
+                    <input type="text" id="job-search" placeholder="Search jobs by title, company, or location...">
+                    <button onclick="searchJobs()"><i class="fas fa-search"></i></button>
+                </div>
+                <div class="filter-row">
+                    <div class="filter-group">
+                        <label for="job-type-filter">Job Type</label>
+                        <select id="job-type-filter" onchange="filterJobs()">
+                            <option value="">All Types</option>
+                            <option value="Full-time">Full-time</option>
+                            <option value="Part-time">Part-time</option>
+                            <option value="Contract">Contract</option>
+                            <option value="Internship">Internship</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="location-filter">Location</label>
+                        <select id="location-filter" onchange="filterJobs()">
+                            <option value="">All Locations</option>
+                            <option value="Remote">Remote</option>
+                            <option value="San Francisco">San Francisco</option>
+                            <option value="New York">New York</option>
+                            <option value="Chicago">Chicago</option>
+                            <option value="Boston">Boston</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="experience-filter">Experience Level</label>
+                        <select id="experience-filter" onchange="filterJobs()">
+                            <option value="">All Levels</option>
+                            <option value="Entry">Entry Level</option>
+                            <option value="Mid">Mid Level</option>
+                            <option value="Senior">Senior Level</option>
+                            <option value="Executive">Executive</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Job Filters -->
+            <div class="job-filters">
+                <div class="search-bar">
+                    <input type="text" id="job-search" placeholder="Search jobs by title, company, or location...">
+                    <button onclick="searchJobs()"><i class="fas fa-search"></i></button>
+                </div>
+                <div class="filter-row">
+                    <div class="filter-group">
+                        <label for="department-filter">Department</label>
+                        <select id="department-filter" onchange="filterJobs()">
+                            <option value="">All Departments</option>
+                            <option value="Computer Science">Computer Science</option>
+                            <option value="Business">Business</option>
+                            <option value="Engineering">Engineering</option>
+                            <option value="Medicine">Medicine</option>
+                            <option value="Economics">Economics</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="employment-type-filter">Employment Type</label>
+                        <select id="employment-type-filter" onchange="filterJobs()">
+                            <option value="">All Types</option>
+                            <option value="Full-time">Full-time</option>
+                            <option value="Part-time">Part-time</option>
+                            <option value="Contract">Contract</option>
+                            <option value="Internship">Internship</option>
+                            <option value="Remote">Remote</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="experience-level-filter">Experience Level</label>
+                        <select id="experience-level-filter" onchange="filterJobs()">
+                            <option value="">All Levels</option>
+                            <option value="Entry">Entry</option>
+                            <option value="Mid">Mid</option>
+                            <option value="Senior">Senior</option>
+                            <option value="Executive">Executive</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="jobs-grid" id="jobs-grid">
+                <div class="loading-spinner">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Loading jobs...</p>
+                </div>
+            </div>
+            
+            <!-- Post Job Button (for logged in users) -->
+            <div id="post-job-section" style="display: none; text-align: center; margin-top: 40px;">
+                <button class="btn" onclick="showPostJobModal()">
+                    <i class="fas fa-plus"></i> Post a Job
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Post Job Modal -->
+    <div id="post-job-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Post a Job Opportunity</h3>
+                <button class="close-btn" onclick="closePostJobModal()">&times;</button>
+            </div>
+            <form id="post-job-form">
+                <div class="form-group">
+                    <label for="job-title">Job Title</label>
+                    <input type="text" id="job-title" name="title" required>
+                </div>
+                <div class="form-group">
+                    <label for="job-company">Company</label>
+                    <input type="text" id="job-company" name="company" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="job-location">Location</label>
+                        <input type="text" id="job-location" name="location" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="job-type">Job Type</label>
+                        <select id="job-type" name="type" required>
+                            <option value="Full-time">Full-time</option>
+                            <option value="Part-time">Part-time</option>
+                            <option value="Contract">Contract</option>
+                            <option value="Internship">Internship</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="job-description">Job Description</label>
+                    <textarea id="job-description" name="description" rows="6" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="job-requirements">Requirements (one per line)</label>
+                    <textarea id="job-requirements" name="requirements" rows="4" placeholder="5+ years experience&#10;JavaScript&#10;React&#10;Node.js"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="job-salary">Salary Range (optional)</label>
+                    <input type="text" id="job-salary" name="salary" placeholder="e.g., $80,000 - $120,000">
+                </div>
+                <div class="form-group">
+                    <label for="job-contact">Contact Email</label>
+                    <input type="email" id="job-contact" name="contactEmail" required>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-outline" onclick="closePostJobModal()">Cancel</button>
+                    <button type="submit" class="btn">Post Job</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3>AlumniConnect</h3>
+                    <p>Stay connected with your alma mater and fellow graduates through our comprehensive alumni network platform.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="index.html#directory">Directory</a></li>
+                        <li><a href="events.html">Events</a></li>
+                        <li><a href="news.html">News</a></li>
+                        <li><a href="jobs.html">Jobs</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="#">Career Services</a></li>
+                        <li><a href="mentorship.html">Mentorship Program</a></li>
+                        <li><a href="#">Volunteer Opportunities</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Contact Us</h3>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> 123 University Ave, City, State</li>
+                        <li><i class="fas fa-phone"></i> (555) 123-4567</li>
+                        <li><i class="fas fa-envelope"></i> alumni@university.edu</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2024 AlumniConnect. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Jobs page specific functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            loadJobs();
+            checkAuthStatus();
+        });
+        
+        async function loadJobs() {
+            try {
+                const response = await apiCall('/jobs');
+                const jobs = response.jobs || response;
+                displayJobs(jobs);
+            } catch (error) {
+                console.error('Error loading jobs:', error);
+                // Show sample jobs if API fails
+                const sampleJobs = [
+                    {
+                        id: 1,
+                        title: 'Senior Software Engineer',
+                        company: 'TechCorp',
+                        location: 'San Francisco, CA',
+                        type: 'Full-time',
+                        description: 'We are looking for a senior software engineer to join our team. You will be responsible for developing and maintaining our core platform using modern technologies.',
+                        requirements: ['5+ years experience', 'JavaScript', 'React', 'Node.js', 'AWS'],
+                        postedBy: 'John Anderson',
+                        postedDate: new Date().toISOString(),
+                        salary: '$120,000 - $160,000'
+                    },
+                    {
+                        id: 2,
+                        title: 'Product Manager',
+                        company: 'DataSoft',
+                        location: 'New York, NY',
+                        type: 'Full-time',
+                        description: 'Lead product development initiatives and work with cross-functional teams to deliver innovative solutions.',
+                        requirements: ['3+ years PM experience', 'Analytics', 'Leadership', 'Agile'],
+                        postedBy: 'Sarah Johnson',
+                        postedDate: new Date().toISOString(),
+                        salary: '$100,000 - $140,000'
+                    },
+                    {
+                        id: 3,
+                        title: 'Marketing Intern',
+                        company: 'StartupXYZ',
+                        location: 'Remote',
+                        type: 'Internship',
+                        description: 'Great opportunity for recent graduates to gain hands-on experience in digital marketing and social media.',
+                        requirements: ['Marketing degree', 'Social media experience', 'Creative thinking'],
+                        postedBy: 'Mike Chen',
+                        postedDate: new Date().toISOString(),
+                        salary: '$15/hour'
+                    }
+                ];
+                displayJobs(sampleJobs);
+            }
+        }
+        
+        function formatSalary(salary) {
+            if (typeof salary === 'string') return salary;
+            if (typeof salary === 'object' && salary.min && salary.max) {
+                const min = salary.min.toLocaleString();
+                const max = salary.max.toLocaleString();
+                const currency = salary.currency || 'USD';
+                const period = salary.period || 'yearly';
+                return `$${min} - $${max} ${currency} ${period}`;
+            }
+            return 'Salary not specified';
+        }
+
+        function displayJobs(jobs) {
+            const jobsGrid = document.getElementById('jobs-grid');
+            if (!jobsGrid) return;
+            
+            if (jobs.length === 0) {
+                jobsGrid.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: var(--muted);">
+                        <i class="fas fa-briefcase" style="font-size: 3rem; margin-bottom: 20px; opacity: 0.5;"></i>
+                        <h3>No jobs posted yet</h3>
+                        <p>Be the first to post a job opportunity!</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            jobsGrid.innerHTML = jobs.map(job => {
+                const postedDate = new Date(job.createdAt || job.postedDate).toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'short', 
+                    day: 'numeric' 
+                });
+                
+                const employmentType = job.employmentType || job.type;
+                const postedBy = job.postedBy ? 
+                    (typeof job.postedBy === 'object' ? 
+                        `${job.postedBy.firstName} ${job.postedBy.lastName}` : 
+                        job.postedBy) : 
+                    'Alumni';
+                
+                return `
+                    <div class="job-card" data-type="${employmentType}" data-location="${job.location}" data-department="${job.department}" data-experience-level="${job.experienceLevel}">
+                        <div class="job-header">
+                            <h3>${job.title}</h3>
+                            <div class="job-type">${employmentType}</div>
+                        </div>
+                        <div class="company">${job.company}</div>
+                        <div class="location">
+                            <i class="fas fa-map-marker-alt"></i> ${job.location}
+                        </div>
+                        <div class="description">${job.description}</div>
+                        <div class="job-meta">
+                            <span><i class="fas fa-user"></i> Posted by ${postedBy}</span>
+                            <span><i class="far fa-calendar"></i> ${postedDate}</span>
+                        </div>
+                        ${job.requirements && job.requirements.length > 0 ? `
+                        <div class="job-requirements">
+                            <h4>Requirements:</h4>
+                            <ul>
+                                ${job.requirements.map(req => `<li>${req}</li>`).join('')}
+                            </ul>
+                        </div>
+                        ` : ''}
+                        ${job.salary ? `<div class="job-salary"><i class="fas fa-dollar-sign"></i> ${formatSalary(job.salary)}</div>` : ''}
+                        <div class="job-actions">
+                            <a href="${job.applicationLink}" target="_blank" class="btn btn-accent">
+                                <i class="fas fa-paper-plane"></i> Apply Now
+                            </a>
+                            <button class="btn btn-outline" onclick="saveJob('${job._id || job.id}')">
+                                <i class="fas fa-bookmark"></i> Save
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        function searchJobs() {
+            const searchTerm = document.getElementById('job-search').value.toLowerCase();
+            const jobCards = document.querySelectorAll('.job-card');
+            
+            jobCards.forEach(card => {
+                const text = card.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+        
+        function filterJobs() {
+            const departmentFilter = document.getElementById('department-filter')?.value;
+            const employmentTypeFilter = document.getElementById('employment-type-filter')?.value;
+            const experienceLevelFilter = document.getElementById('experience-level-filter')?.value;
+            
+            const jobCards = document.querySelectorAll('.job-card');
+            
+            jobCards.forEach(card => {
+                let show = true;
+                
+                if (departmentFilter && !card.dataset.department?.includes(departmentFilter)) {
+                    show = false;
+                }
+                
+                if (employmentTypeFilter && card.dataset.type !== employmentTypeFilter) {
+                    show = false;
+                }
+                
+                if (experienceLevelFilter && card.dataset.experienceLevel !== experienceLevelFilter) {
+                    show = false;
+                }
+                
+                card.style.display = show ? 'block' : 'none';
+            });
+        }
+        
+        function applyForJob(jobId) {
+            if (!currentUser) {
+                showMessage('Please login to apply for jobs', 'error');
+                return;
+            }
+            
+            showMessage('Application submitted successfully! The employer will contact you soon.', 'success');
+        }
+        
+        function saveJob(jobId) {
+            if (!currentUser) {
+                showMessage('Please login to save jobs', 'error');
+                return;
+            }
+            
+            showMessage('Job saved to your favorites!', 'success');
+        }
+        
+        function showPostJobModal() {
+            document.getElementById('post-job-modal').style.display = 'flex';
+        }
+        
+        function closePostJobModal() {
+            document.getElementById('post-job-modal').style.display = 'none';
+            document.getElementById('post-job-form').reset();
+        }
+        
+        // Handle post job form
+        document.getElementById('post-job-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            if (!currentUser) {
+                showMessage('Please login to post jobs', 'error');
+                return;
+            }
+            
+            const formData = new FormData(e.target);
+            const jobData = Object.fromEntries(formData.entries());
+            
+            // Convert requirements string to array
+            if (jobData.requirements) {
+                jobData.requirements = jobData.requirements.split('\n').filter(req => req.trim());
+            }
+            
+            try {
+                await apiCall('/jobs', 'POST', jobData);
+                showMessage('Job posted successfully!', 'success');
+                closePostJobModal();
+                loadJobs();
+            } catch (error) {
+                showMessage('Error posting job: ' + error.message, 'error');
+            }
+        });
+    </script>
+</body>
+</html>

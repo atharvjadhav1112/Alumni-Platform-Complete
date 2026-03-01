@@ -1,0 +1,34 @@
+🎓 ALUMNI PLATFORM - QUICK START GUIDE
+========================================
+
+📁 PROJECT LOCATION:
+C:\Users\DELL\Documents\Alumni-Platform-Complete\
+
+🚀 HOW TO START:
+1. Double-click "setup.bat" (first time only)
+2. Double-click "start-alumni-platform.bat"
+3. Open browser and go to: http://localhost:5000
+
+🔑 DEMO ACCOUNTS:
+• Alumni: alumni@example.com / password123
+• Admin: admin@example.com / admin123
+
+📋 FEATURES:
+✅ Homepage with feature showcase
+✅ User registration and login
+✅ Alumni dashboard
+✅ Event management
+✅ Responsive design
+✅ Modern UI with Tailwind CSS
+
+🛠️ REQUIREMENTS:
+• Node.js (v14+)
+• MongoDB (optional for basic demo)
+• Web browser
+
+📞 TROUBLESHOOTING:
+• If port 5000 is busy, change PORT in server.js
+• If Node.js not found, install from nodejs.org
+• Check README.md for detailed instructions
+
+🎉 ENJOY YOUR ALUMNI PLATFORM!

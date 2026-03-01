@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News - AlumniConnect</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                AlumniConnect
+            </a>
+            
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#directory">Directory</a></li>
+                <li><a href="events.html">Events</a></li>
+                <li><a href="news.html" class="active">News</a></li>
+                <li><a href="jobs.html">Jobs</a></li>
+                <li><a href="mentorship.html">Mentorship</a></li>
+                <div class="auth-buttons" id="auth-buttons">
+                    <a href="login.html" class="btn btn-outline">Login</a>
+                    <a href="register.html" class="btn">Register</a>
+                </div>
+                <div class="user-menu" id="user-menu" style="display: none;">
+                    <span id="user-name">Welcome, User!</span>
+                    <a href="dashboard.html" class="btn btn-outline">Dashboard</a>
+                    <button onclick="logout()" class="btn btn-accent">Logout</button>
+                </div>
+            </ul>
+        </div>
+    </header>
+
+    <section class="news">
+        <div class="container">
+            <div class="section-title">
+                <h2>Alumni News & Updates</h2>
+                <p>Stay informed about the latest achievements and news from our alumni community</p>
+            </div>
+            
+            <!-- News Filters -->
+            <div class="news-filters">
+                <div class="search-bar">
+                    <input type="text" id="news-search" placeholder="Search news...">
+                    <button onclick="searchNews()"><i class="fas fa-search"></i></button>
+                </div>
+                <div class="filter-buttons">
+                    <button class="filter-btn active" onclick="filterNews('all')">All</button>
+                    <button class="filter-btn" onclick="filterNews('General')">General</button>
+                    <button class="filter-btn" onclick="filterNews('Event')">Events</button>
+                    <button class="filter-btn" onclick="filterNews('Job')">Jobs</button>
+                    <button class="filter-btn" onclick="filterNews('Academic')">Academic</button>
+                </div>
+            </div>
+            
+            <div class="news-grid" id="news-grid">
+                <div class="loading-spinner">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Loading news...</p>
+                </div>
+            </div>
+            
+            <!-- Create Announcement Button (for admins) -->
+            <div id="create-announcement-section" style="display: none; text-align: center; margin-top: 40px;">
+                <button class="btn" onclick="showCreateAnnouncementModal()">
+                    <i class="fas fa-plus"></i> Create New Announcement
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Create Announcement Modal -->
+    <div id="create-announcement-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Create New Announcement</h3>
+                <button class="close-btn" onclick="closeCreateAnnouncementModal()">&times;</button>
+            </div>
+            <form id="create-announcement-form">
+                <div class="form-group">
+                    <label for="announcement-title">Title</label>
+                    <input type="text" id="announcement-title" name="title" required>
+                </div>
+                <div class="form-group">
+                    <label for="announcement-content">Content</label>
+                    <textarea id="announcement-content" name="content" rows="6" required></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="announcement-category">Category</label>
+                        <select id="announcement-category" name="category" required>
+                            <option value="General">General</option>
+                            <option value="Event">Event</option>
+                            <option value="Job">Job</option>
+                            <option value="Academic">Academic</option>
+                            <option value="Social">Social</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="announcement-priority">Priority</label>
+                        <select id="announcement-priority" name="priority" required>
+                            <option value="Low">Low</option>
+                            <option value="Medium" selected>Medium</option>
+                            <option value="High">High</option>
+                            <option value="Urgent">Urgent</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="announcement-audience">Target Audience</label>
+                    <select id="announcement-audience" name="targetAudience" required>
+                        <option value="All">All Alumni</option>
+                        <option value="Graduates">Graduates Only</option>
+                        <option value="Current Students">Current Students</option>
+                        <option value="Faculty">Faculty</option>
+                        <option value="Specific Department">Specific Department</option>
+                    </select>
+                </div>
+                <div class="form-group" id="department-group" style="display: none;">
+                    <label for="announcement-department">Department</label>
+                    <input type="text" id="announcement-department" name="department" placeholder="e.g., Computer Science">
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-outline" onclick="closeCreateAnnouncementModal()">Cancel</button>
+                    <button type="submit" class="btn">Create Announcement</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3>AlumniConnect</h3>
+                    <p>Stay connected with your alma mater and fellow graduates through our comprehensive alumni network platform.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="index.html#directory">Directory</a></li>
+                        <li><a href="events.html">Events</a></li>
+                        <li><a href="news.html">News</a></li>
+                        <li><a href="jobs.html">Jobs</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="#">Career Services</a></li>
+                        <li><a href="mentorship.html">Mentorship Program</a></li>
+                        <li><a href="#">Volunteer Opportunities</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Contact Us</h3>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> 123 University Ave, City, State</li>
+                        <li><i class="fas fa-phone"></i> (555) 123-4567</li>
+                        <li><i class="fas fa-envelope"></i> alumni@university.edu</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2024 AlumniConnect. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // News page specific functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            loadNews();
+            checkAuthStatus();
+        });
+        
+        async function loadNews() {
+            try {
+                const response = await apiCall('/announcements');
+                displayNews(response);
+            } catch (error) {
+                console.error('Error loading news:', error);
+                // Show sample news if API fails
+                const sampleNews = [
+                    {
+                        _id: '1',
+                        title: 'Alumni Honored with Achievement Awards',
+                        content: 'Five distinguished alumni recognized for outstanding contributions to their fields at annual ceremony. The awards recognize excellence in professional achievement, community service, and innovation.',
+                        category: 'General',
+                        priority: 'High',
+                        author: { firstName: 'Admin', lastName: 'User' },
+                        createdAt: '2024-06-05T10:00:00Z'
+                    },
+                    {
+                        _id: '2',
+                        title: 'New Scholarship Fund Established',
+                        content: 'Alumni donors create new endowment to support first-generation college students. The fund will provide $50,000 annually in scholarships.',
+                        category: 'Academic',
+                        priority: 'Medium',
+                        author: { firstName: 'Admin', lastName: 'User' },
+                        createdAt: '2024-05-22T14:30:00Z'
+                    },
+                    {
+                        _id: '3',
+                        title: 'Campus Expansion Project Approved',
+                        content: 'New science and technology center to be built with support from alumni donations. The $10M project will include state-of-the-art labs and research facilities.',
+                        category: 'General',
+                        priority: 'Medium',
+                        author: { firstName: 'Admin', lastName: 'User' },
+                        createdAt: '2024-04-30T09:15:00Z'
+                    }
+                ];
+                displayNews(sampleNews);
+            }
+        }
+        
+        function displayNews(news) {
+            const newsGrid = document.getElementById('news-grid');
+            if (!newsGrid) return;
+            
+            newsGrid.innerHTML = news.map(article => {
+                const date = new Date(article.createdAt).toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                });
+                
+                const priorityClass = article.priority.toLowerCase();
+                
+                return `
+                    <div class="news-card" data-category="${article.category}">
+                        <div class="news-img">
+                            <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="News image">
+                            <div class="news-priority ${priorityClass}">${article.priority}</div>
+                        </div>
+                        <div class="news-content">
+                            <div class="news-category">${article.category}</div>
+                            <h3>${article.title}</h3>
+                            <p>${article.content}</p>
+                            <div class="news-meta">
+                                <span><i class="far fa-calendar"></i> ${date}</span>
+                                <span><i class="fas fa-user"></i> ${article.author.firstName} ${article.author.lastName}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        function searchNews() {
+            const searchTerm = document.getElementById('news-search').value.toLowerCase();
+            const newsCards = document.querySelectorAll('.news-card');
+            
+            newsCards.forEach(card => {
+                const text = card.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+        
+        function filterNews(category) {
+            const newsCards = document.querySelectorAll('.news-card');
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            
+            // Update active button
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            newsCards.forEach(card => {
+                if (category === 'all' || card.dataset.category === category) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+        
+        function showCreateAnnouncementModal() {
+            document.getElementById('create-announcement-modal').style.display = 'flex';
+        }
+        
+        function closeCreateAnnouncementModal() {
+            document.getElementById('create-announcement-modal').style.display = 'none';
+            document.getElementById('create-announcement-form').reset();
+        }
+        
+        // Handle target audience change
+        document.getElementById('announcement-audience').addEventListener('change', function() {
+            const departmentGroup = document.getElementById('department-group');
+            departmentGroup.style.display = this.value === 'Specific Department' ? 'block' : 'none';
+        });
+        
+        // Handle create announcement form
+        document.getElementById('create-announcement-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            if (!currentUser) {
+                showMessage('Please login to create announcements', 'error');
+                return;
+            }
+            
+            const formData = new FormData(e.target);
+            const announcementData = Object.fromEntries(formData.entries());
+            
+            try {
+                await apiCall('/admin/announcements', {
+                    method: 'POST',
+                    body: JSON.stringify(announcementData)
+                });
+                showMessage('Announcement created successfully!', 'success');
+                closeCreateAnnouncementModal();
+                loadNews();
+            } catch (error) {
+                showMessage(error.message, 'error');
+            }
+        });
+    </script>
+</body>
+</html>

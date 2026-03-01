@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mentorship - AlumniConnect</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                AlumniConnect
+            </a>
+            
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#directory">Directory</a></li>
+                <li><a href="events.html">Events</a></li>
+                <li><a href="news.html">News</a></li>
+                <li><a href="jobs.html">Jobs</a></li>
+                <li><a href="mentorship.html" class="active">Mentorship</a></li>
+                <div class="auth-buttons" id="auth-buttons">
+                    <a href="login.html" class="btn btn-outline">Login</a>
+                    <a href="register.html" class="btn">Register</a>
+                </div>
+                <div class="user-menu" id="user-menu" style="display: none;">
+                    <span id="user-name">Welcome, User!</span>
+                    <a href="dashboard.html" class="btn btn-outline">Dashboard</a>
+                    <button onclick="logout()" class="btn btn-accent">Logout</button>
+                </div>
+            </ul>
+        </div>
+    </header>
+
+    <section class="mentorship-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Mentorship Program</h2>
+                <p>Connect with experienced alumni mentors or become a mentor to help fellow graduates</p>
+            </div>
+            
+            <!-- Mentorship Tabs -->
+            <div class="mentorship-tabs">
+                <button class="tab-btn active" onclick="showTab('find-mentors')">Find Mentors</button>
+                <button class="tab-btn" onclick="showTab('my-mentorships')">My Mentorships</button>
+                <button class="tab-btn" onclick="showTab('become-mentor')">Become a Mentor</button>
+            </div>
+            
+            <!-- Find Mentors Tab -->
+            <div id="find-mentors" class="tab-content active">
+                <div class="mentor-filters">
+                    <div class="search-bar">
+                        <input type="text" id="mentor-search" placeholder="Search mentors by name, department, or expertise...">
+                        <button onclick="searchMentors()"><i class="fas fa-search"></i></button>
+                    </div>
+                    <div class="filter-row">
+                        <div class="filter-group">
+                            <label for="department-filter">Department</label>
+                            <select id="department-filter" onchange="filterMentors()">
+                                <option value="">All Departments</option>
+                                <option value="Computer Science">Computer Science</option>
+                                <option value="Business">Business</option>
+                                <option value="Engineering">Engineering</option>
+                                <option value="Medicine">Medicine</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="expertise-filter">Expertise</label>
+                            <select id="expertise-filter" onchange="filterMentors()">
+                                <option value="">All Expertise</option>
+                                <option value="Technology">Technology</option>
+                                <option value="Leadership">Leadership</option>
+                                <option value="Entrepreneurship">Entrepreneurship</option>
+                                <option value="Career Development">Career Development</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mentors-grid" id="mentors-grid">
+                    <div class="loading-spinner">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <p>Loading mentors...</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- My Mentorships Tab -->
+            <div id="my-mentorships" class="tab-content">
+                <div class="mentorships-list" id="mentorships-list">
+                    <div class="loading-spinner">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <p>Loading your mentorships...</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Become Mentor Tab -->
+            <div id="become-mentor" class="tab-content">
+                <div class="become-mentor-content">
+                    <h3>Share Your Knowledge and Experience</h3>
+                    <p>Help fellow alumni by becoming a mentor. Share your professional insights, career advice, and industry knowledge.</p>
+                    
+                    <div class="mentor-benefits">
+                        <div class="benefit-card">
+                            <i class="fas fa-users"></i>
+                            <h4>Build Your Network</h4>
+                            <p>Connect with motivated alumni and expand your professional network</p>
+                        </div>
+                        <div class="benefit-card">
+                            <i class="fas fa-chart-line"></i>
+                            <h4>Develop Leadership Skills</h4>
+                            <p>Enhance your leadership and communication skills through mentoring</p>
+                        </div>
+                        <div class="benefit-card">
+                            <i class="fas fa-heart"></i>
+                            <h4>Give Back</h4>
+                            <p>Make a positive impact on someone's career and personal growth</p>
+                        </div>
+                    </div>
+                    
+                    <button class="btn" onclick="showBecomeMentorModal()">
+                        <i class="fas fa-user-plus"></i> Become a Mentor
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Request Mentorship Modal -->
+    <div id="request-mentorship-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Request Mentorship</h3>
+                <button class="close-btn" onclick="closeRequestMentorshipModal()">&times;</button>
+            </div>
+            <form id="request-mentorship-form">
+                <input type="hidden" id="mentor-id" name="mentorId">
+                <div class="form-group">
+                    <label for="mentorship-subject">Subject/Area of Focus</label>
+                    <input type="text" id="mentorship-subject" name="subject" required>
+                </div>
+                <div class="form-group">
+                    <label for="mentorship-description">Describe what you'd like to learn</label>
+                    <textarea id="mentorship-description" name="description" rows="4" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="mentorship-goals">Goals (one per line)</label>
+                    <textarea id="mentorship-goals" name="goals" rows="3" placeholder="Improve technical skills&#10;Learn about career advancement&#10;Network in the industry"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="meeting-frequency">Preferred Meeting Frequency</label>
+                    <select id="meeting-frequency" name="meetingFrequency" required>
+                        <option value="Weekly">Weekly</option>
+                        <option value="Bi-weekly">Bi-weekly</option>
+                        <option value="Monthly">Monthly</option>
+                        <option value="As Needed">As Needed</option>
+                    </select>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-outline" onclick="closeRequestMentorshipModal()">Cancel</button>
+                    <button type="submit" class="btn">Send Request</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Become Mentor Modal -->
+    <div id="become-mentor-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Become a Mentor</h3>
+                <button class="close-btn" onclick="closeBecomeMentorModal()">&times;</button>
+            </div>
+            <form id="become-mentor-form">
+                <div class="form-group">
+                    <label for="mentor-expertise">Areas of Expertise</label>
+                    <input type="text" id="mentor-expertise" name="expertise" placeholder="e.g., Software Development, Product Management, Leadership" required>
+                </div>
+                <div class="form-group">
+                    <label for="mentor-experience">Years of Experience</label>
+                    <input type="number" id="mentor-experience" name="experience" min="1" required>
+                </div>
+                <div class="form-group">
+                    <label for="mentor-bio">Bio/Background</label>
+                    <textarea id="mentor-bio" name="bio" rows="4" placeholder="Tell us about your professional background and what you can offer as a mentor" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="mentor-availability">Availability</label>
+                    <select id="mentor-availability" name="availability" required>
+                        <option value="1-2 hours per week">1-2 hours per week</option>
+                        <option value="3-5 hours per week">3-5 hours per week</option>
+                        <option value="5+ hours per week">5+ hours per week</option>
+                    </select>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-outline" onclick="closeBecomeMentorModal()">Cancel</button>
+                    <button type="submit" class="btn">Submit Application</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3>AlumniConnect</h3>
+                    <p>Stay connected with your alma mater and fellow graduates through our comprehensive alumni network platform.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="index.html#directory">Directory</a></li>
+                        <li><a href="events.html">Events</a></li>
+                        <li><a href="news.html">News</a></li>
+                        <li><a href="jobs.html">Jobs</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="#">Career Services</a></li>
+                        <li><a href="mentorship.html">Mentorship Program</a></li>
+                        <li><a href="#">Volunteer Opportunities</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Contact Us</h3>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> 123 University Ave, City, State</li>
+                        <li><i class="fas fa-phone"></i> (555) 123-4567</li>
+                        <li><i class="fas fa-envelope"></i> alumni@university.edu</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2024 AlumniConnect. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Mentorship page specific functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            loadMentors();
+            checkAuthStatus();
+        });
+        
+        function showTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active class from all tab buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+            
+            // Load data for specific tabs
+            if (tabName === 'my-mentorships') {
+                loadMyMentorships();
+            }
+        }
+        
+        async function loadMentors() {
+            try {
+                const response = await apiCall('/alumni');
+                const mentors = response.alumni || response;
+                displayMentors(mentors);
+            } catch (error) {
+                console.error('Error loading mentors:', error);
+                // Show sample mentors if API fails
+                const sampleMentors = [
+                    {
+                        _id: '1',
+                        firstName: 'John',
+                        lastName: 'Anderson',
+                        department: 'Computer Science',
+                        graduationYear: 2010,
+                        currentJob: { title: 'VP of Engineering', company: 'TechCorp' },
+                        skills: ['JavaScript', 'React', 'Node.js', 'Leadership'],
+                        profilePicture: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80'
+                    },
+                    {
+                        _id: '2',
+                        firstName: 'Sarah',
+                        lastName: 'Johnson',
+                        department: 'Business',
+                        graduationYear: 2015,
+                        currentJob: { title: 'Product Manager', company: 'DataSoft' },
+                        skills: ['Product Management', 'Analytics', 'Leadership'],
+                        profilePicture: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80'
+                    }
+                ];
+                displayMentors(sampleMentors);
+            }
+        }
+        
+        function displayMentors(mentors) {
+            const mentorsGrid = document.getElementById('mentors-grid');
+            if (!mentorsGrid) return;
+            
+            mentorsGrid.innerHTML = mentors.map(mentor => `
+                <div class="mentor-card" data-department="${mentor.department}">
+                    <div class="mentor-img">
+                        <img src="${mentor.profilePicture || 'https://via.placeholder.com/300x200'}" alt="${mentor.firstName} ${mentor.lastName}">
+                    </div>
+                    <div class="mentor-info">
+                        <h3>${mentor.firstName} ${mentor.lastName}</h3>
+                        <div class="role">${mentor.currentJob?.title || 'Professional'} at ${mentor.currentJob?.company || 'Various'}</div>
+                        <div class="expertise">
+                            <strong>Department:</strong> ${mentor.department}<br>
+                            <strong>Class of:</strong> ${mentor.graduationYear}<br>
+                            <strong>Skills:</strong> ${mentor.skills?.join(', ') || 'Various'}
+                        </div>
+                        <button class="btn btn-accent" onclick="requestMentorship('${mentor._id}')">
+                            <i class="fas fa-handshake"></i> Request Mentorship
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        async function loadMyMentorships() {
+            if (!currentUser) {
+                document.getElementById('mentorships-list').innerHTML = '<p>Please login to view your mentorships.</p>';
+                return;
+            }
+            
+            try {
+                const response = await apiCall('/mentorships');
+                displayMyMentorships(response);
+            } catch (error) {
+                console.error('Error loading mentorships:', error);
+                document.getElementById('mentorships-list').innerHTML = '<p>No mentorships found.</p>';
+            }
+        }
+        
+        function displayMyMentorships(mentorships) {
+            const mentorshipsList = document.getElementById('mentorships-list');
+            if (!mentorshipsList) return;
+            
+            if (mentorships.length === 0) {
+                mentorshipsList.innerHTML = '<p>No mentorships found. <a href="#" onclick="showTab(\'find-mentors\')">Find a mentor</a> to get started!</p>';
+                return;
+            }
+            
+            mentorshipsList.innerHTML = mentorships.map(mentorship => `
+                <div class="mentorship-item">
+                    <div class="mentorship-header">
+                        <h4>${mentorship.subject}</h4>
+                        <span class="mentorship-status ${mentorship.status.toLowerCase()}">${mentorship.status}</span>
+                    </div>
+                    <div class="mentorship-details">
+                        <p><strong>Mentor:</strong> ${mentorship.mentor.firstName} ${mentorship.mentor.lastName}</p>
+                        <p><strong>Mentee:</strong> ${mentorship.mentee.firstName} ${mentorship.mentee.lastName}</p>
+                        <p><strong>Description:</strong> ${mentorship.description}</p>
+                        <p><strong>Frequency:</strong> ${mentorship.meetingFrequency}</p>
+                    </div>
+                    <div class="mentorship-actions">
+                        ${mentorship.status === 'Pending' ? 
+                            `<button class="btn btn-outline" onclick="updateMentorshipStatus('${mentorship._id}', 'Active')">Accept</button>
+                             <button class="btn btn-accent" onclick="updateMentorshipStatus('${mentorship._id}', 'Cancelled')">Decline</button>` :
+                            `<button class="btn btn-outline" onclick="viewMentorshipDetails('${mentorship._id}')">View Details</button>`
+                        }
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function searchMentors() {
+            const searchTerm = document.getElementById('mentor-search').value.toLowerCase();
+            const mentorCards = document.querySelectorAll('.mentor-card');
+            
+            mentorCards.forEach(card => {
+                const text = card.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+        
+        function filterMentors() {
+            const departmentFilter = document.getElementById('department-filter').value;
+            const expertiseFilter = document.getElementById('expertise-filter').value;
+            
+            const mentorCards = document.querySelectorAll('.mentor-card');
+            
+            mentorCards.forEach(card => {
+                let show = true;
+                
+                if (departmentFilter && card.dataset.department !== departmentFilter) {
+                    show = false;
+                }
+                
+                if (expertiseFilter) {
+                    const text = card.textContent.toLowerCase();
+                    if (!text.includes(expertiseFilter.toLowerCase())) {
+                        show = false;
+                    }
+                }
+                
+                card.style.display = show ? 'flex' : 'none';
+            });
+        }
+        
+        function requestMentorship(mentorId) {
+            if (!currentUser) {
+                showMessage('Please login to request mentorship', 'error');
+                return;
+            }
+            
+            document.getElementById('mentor-id').value = mentorId;
+            document.getElementById('request-mentorship-modal').style.display = 'flex';
+        }
+        
+        function closeRequestMentorshipModal() {
+            document.getElementById('request-mentorship-modal').style.display = 'none';
+            document.getElementById('request-mentorship-form').reset();
+        }
+        
+        function showBecomeMentorModal() {
+            document.getElementById('become-mentor-modal').style.display = 'flex';
+        }
+        
+        function closeBecomeMentorModal() {
+            document.getElementById('become-mentor-modal').style.display = 'none';
+            document.getElementById('become-mentor-form').reset();
+        }
+        
+        async function updateMentorshipStatus(mentorshipId, status) {
+            try {
+                await apiCall(`/mentorships/${mentorshipId}/status`, {
+                    method: 'PUT',
+                    body: JSON.stringify({ status })
+                });
+                showMessage(`Mentorship ${status.toLowerCase()} successfully!`, 'success');
+                loadMyMentorships();
+            } catch (error) {
+                showMessage(error.message, 'error');
+            }
+        }
+        
+        function viewMentorshipDetails(mentorshipId) {
+            showMessage('Mentorship details feature coming soon!', 'success');
+        }
+        
+        // Handle request mentorship form
+        document.getElementById('request-mentorship-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const mentorshipData = Object.fromEntries(formData.entries());
+            
+            // Convert goals string to array
+            if (mentorshipData.goals) {
+                mentorshipData.goals = mentorshipData.goals.split('\n').filter(goal => goal.trim());
+            }
+            
+            try {
+                await apiCall('/mentorships', {
+                    method: 'POST',
+                    body: JSON.stringify(mentorshipData)
+                });
+                showMessage('Mentorship request sent successfully!', 'success');
+                closeRequestMentorshipModal();
+            } catch (error) {
+                showMessage(error.message, 'error');
+            }
+        });
+        
+        // Handle become mentor form
+        document.getElementById('become-mentor-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const mentorData = Object.fromEntries(formData.entries());
+            
+            try {
+                // In a real implementation, this would call the API
+                showMessage('Mentor application submitted successfully! We will review your application and get back to you soon.', 'success');
+                closeBecomeMentorModal();
+            } catch (error) {
+                showMessage(error.message, 'error');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - AlumniConnect</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="form-container">
+        <h2>Create Your Account</h2>
+        <form id="register-form">
+            <div class="form-group">
+                <label for="firstName">First Name</label>
+                <input type="text" id="firstName" name="firstName" required>
+            </div>
+            <div class="form-group">
+                <label for="lastName">Last Name</label>
+                <input type="text" id="lastName" name="lastName" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="graduationYear">Graduation Year</label>
+                <select id="graduationYear" name="graduationYear" required>
+                    <option value="">Select graduation year</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="department">Department</label>
+                <input type="text" id="department" name="department" placeholder="e.g., Computer Science" required>
+            </div>
+            <div class="form-group">
+                <label for="degree">Degree</label>
+                <select id="degree" name="degree" required>
+                    <option value="">Select degree</option>
+                    <option value="Bachelor's">Bachelor's</option>
+                    <option value="Master's">Master's</option>
+                    <option value="PhD">PhD</option>
+                    <option value="Associate">Associate</option>
+                    <option value="Certificate">Certificate</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" minlength="6" required>
+            </div>
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" minlength="6" required>
+            </div>
+            <button type="submit" class="btn">Register</button>
+            <p style="margin-top: 20px;">Already have an account? <a href="login.html" style="color: var(--primary);">Login here</a></p>
+        </form>
+    </div>
+    <script src="script.js"></script>
+    <script>
+        // Populate graduation year dropdown
+        document.addEventListener('DOMContentLoaded', function() {
+            const graduationYearSelect = document.getElementById('graduationYear');
+            const currentYear = new Date().getFullYear();
+            
+            for (let year = currentYear; year >= 1950; year--) {
+                const option = document.createElement('option');
+                option.value = year;
+                option.textContent = year;
+                graduationYearSelect.appendChild(option);
+            }
+            
+            // Add password confirmation validation
+            const password = document.getElementById('password');
+            const confirmPassword = document.getElementById('confirmPassword');
+            
+            function validatePassword() {
+                if (password.value !== confirmPassword.value) {
+                    confirmPassword.setCustomValidity("Passwords don't match");
+                } else {
+                    confirmPassword.setCustomValidity('');
+                }
+            }
+            
+            password.addEventListener('change', validatePassword);
+            confirmPassword.addEventListener('keyup', validatePassword);
+        });
+    </script>
+</body>
+</html>

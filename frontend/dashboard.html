@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - AlumniConnect</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                AlumniConnect
+            </a>
+            
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#directory">Directory</a></li>
+                <li><a href="events.html">Events</a></li>
+                <li><a href="news.html">News</a></li>
+                <li><a href="jobs.html">Jobs</a></li>
+                <li><a href="mentorship.html">Mentorship</a></li>
+                <div class="user-menu">
+                    <span id="user-name">Welcome, User!</span>
+                    <a href="dashboard.html" class="btn btn-outline">Dashboard</a>
+                    <button onclick="logout()" class="btn btn-accent">Logout</button>
+                </div>
+            </ul>
+        </div>
+    </header>
+
+    <section class="dashboard">
+        <div class="container">
+            <div class="dashboard-header">
+                <h1>Welcome to Your Dashboard</h1>
+                <p>Manage your profile, connect with alumni, and stay updated with the latest news and events.</p>
+            </div>
+            
+            <div class="dashboard-content">
+                <div class="dashboard-main">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <h3 id="events-count">5</h3>
+                            <p>Upcoming Events</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3 id="connections-count">127</h3>
+                            <p>Connections</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3 id="mentorships-count">2</h3>
+                            <p>Active Mentorships</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3 id="donations-count">$2,450</h3>
+                            <p>Total Donations</p>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-bottom: 30px;">
+                        <h2>Recent Activity</h2>
+                        <div id="recent-activity">
+                            <div class="loading-spinner">
+                                <i class="fas fa-spinner fa-spin"></i>
+                                <p>Loading activity...</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h2>Upcoming Events</h2>
+                        <div id="dashboard-events">
+                            <div class="loading-spinner">
+                                <i class="fas fa-spinner fa-spin"></i>
+                                <p>Loading events...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="dashboard-sidebar">
+                    <h3>Quick Actions</h3>
+                    <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 30px;">
+                        <button class="btn btn-outline" onclick="openProfileModal()">
+                            <i class="fas fa-user-edit"></i> Update Profile
+                        </button>
+                        <button class="btn btn-outline" onclick="openJobModal()">
+                            <i class="fas fa-briefcase"></i> Post Job
+                        </button>
+                        <button class="btn btn-outline" onclick="openDonationModal()">
+                            <i class="fas fa-heart"></i> Make Donation
+                        </button>
+                        <button class="btn btn-outline" onclick="openNewsModal()">
+                            <i class="fas fa-newspaper"></i> Post News
+                        </button>
+                        <button class="btn btn-outline" onclick="findMentorship()">
+                            <i class="fas fa-handshake"></i> Find Mentorship
+                        </button>
+                        <button class="btn btn-outline" onclick="createEvent()">
+                            <i class="fas fa-calendar-plus"></i> Create Event
+                        </button>
+                    </div>
+                    
+                    <h3>Recent Connections</h3>
+                    <div id="recent-connections">
+                        <div class="loading-spinner">
+                            <i class="fas fa-spinner fa-spin"></i>
+                            <p>Loading connections...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3>AlumniConnect</h3>
+                    <p>Stay connected with your alma mater and fellow graduates through our comprehensive alumni network platform.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="index.html#directory">Directory</a></li>
+                        <li><a href="events.html">Events</a></li>
+                        <li><a href="news.html">News</a></li>
+                        <li><a href="jobs.html">Jobs</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="#">Career Services</a></li>
+                        <li><a href="mentorship.html">Mentorship Program</a></li>
+                        <li><a href="#">Volunteer Opportunities</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Contact Us</h3>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> 123 University Ave, City, State</li>
+                        <li><i class="fas fa-phone"></i> (555) 123-4567</li>
+                        <li><i class="fas fa-envelope"></i> alumni@university.edu</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2024 AlumniConnect. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Job Posting Modal -->
+    <div id="jobModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Post a Job Opportunity</h2>
+                <span class="close" onclick="closeModal('jobModal')">&times;</span>
+            </div>
+            <form id="jobForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="jobTitle">Job Title *</label>
+                        <input type="text" id="jobTitle" name="title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="jobCompany">Company *</label>
+                        <input type="text" id="jobCompany" name="company" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="jobLocation">Location *</label>
+                        <input type="text" id="jobLocation" name="location" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="jobDepartment">Department *</label>
+                        <select id="jobDepartment" name="department" required>
+                            <option value="">Select Department</option>
+                            <option value="Computer Science">Computer Science</option>
+                            <option value="Business">Business</option>
+                            <option value="Engineering">Engineering</option>
+                            <option value="Medicine">Medicine</option>
+                            <option value="Economics">Economics</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="employmentType">Employment Type *</label>
+                        <select id="employmentType" name="employmentType" required>
+                            <option value="">Select Type</option>
+                            <option value="Full-time">Full-time</option>
+                            <option value="Part-time">Part-time</option>
+                            <option value="Contract">Contract</option>
+                            <option value="Internship">Internship</option>
+                            <option value="Remote">Remote</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="experienceLevel">Experience Level *</label>
+                        <select id="experienceLevel" name="experienceLevel" required>
+                            <option value="">Select Level</option>
+                            <option value="Entry">Entry</option>
+                            <option value="Mid">Mid</option>
+                            <option value="Senior">Senior</option>
+                            <option value="Executive">Executive</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="jobDescription">Job Description *</label>
+                    <textarea id="jobDescription" name="description" rows="4" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="applicationLink">Application Link *</label>
+                    <input type="url" id="applicationLink" name="applicationLink" required>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-outline" onclick="closeModal('jobModal')">Cancel</button>
+                    <button type="submit" class="btn">Post Job</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Donation Modal -->
+    <div id="donationModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Make a Donation</h2>
+                <span class="close" onclick="closeModal('donationModal')">&times;</span>
+            </div>
+            <form id="donationForm">
+                <div class="form-group">
+                    <label for="donationAmount">Donation Amount ($) *</label>
+                    <input type="number" id="donationAmount" name="amount" min="1" required>
+                </div>
+                <div class="form-group">
+                    <label for="donationPurpose">Purpose *</label>
+                    <select id="donationPurpose" name="purpose" required>
+                        <option value="">Select Purpose</option>
+                        <option value="General Fund">General Fund</option>
+                        <option value="Scholarship">Scholarship</option>
+                        <option value="Infrastructure">Infrastructure</option>
+                        <option value="Research">Research</option>
+                        <option value="Events">Events</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="donationDescription">Description</label>
+                    <textarea id="donationDescription" name="description" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="paymentMethod">Payment Method *</label>
+                    <select id="paymentMethod" name="paymentMethod" required>
+                        <option value="">Select Method</option>
+                        <option value="Credit Card">Credit Card</option>
+                        <option value="PayPal">PayPal</option>
+                        <option value="Bank Transfer">Bank Transfer</option>
+                        <option value="Check">Check</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="isAnonymous" name="isAnonymous">
+                        Make this donation anonymous
+                    </label>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-outline" onclick="closeModal('donationModal')">Cancel</button>
+                    <button type="submit" class="btn">Make Donation</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- News Posting Modal -->
+    <div id="newsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Post News/Announcement</h2>
+                <span class="close" onclick="closeModal('newsModal')">&times;</span>
+            </div>
+            <form id="newsForm">
+                <div class="form-group">
+                    <label for="newsTitle">Title *</label>
+                    <input type="text" id="newsTitle" name="title" required>
+                </div>
+                <div class="form-group">
+                    <label for="newsContent">Content *</label>
+                    <textarea id="newsContent" name="content" rows="6" required></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="newsCategory">Category *</label>
+                        <select id="newsCategory" name="category" required>
+                            <option value="">Select Category</option>
+                            <option value="General">General</option>
+                            <option value="Event">Event</option>
+                            <option value="Job">Job</option>
+                            <option value="Academic">Academic</option>
+                            <option value="Social">Social</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="newsPriority">Priority</label>
+                        <select id="newsPriority" name="priority">
+                            <option value="Medium">Medium</option>
+                            <option value="Low">Low</option>
+                            <option value="High">High</option>
+                            <option value="Urgent">Urgent</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-outline" onclick="closeModal('newsModal')">Cancel</button>
+                    <button type="submit" class="btn">Post News</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Enhanced Profile Modal -->
+    <div id="profileModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Update Profile</h2>
+                <span class="close" onclick="closeModal('profileModal')">&times;</span>
+            </div>
+            <form id="profileForm">
+                <div class="form-group">
+                    <label for="profilePhoto">Profile Photo URL</label>
+                    <input type="url" id="profilePhoto" name="profilePicture" placeholder="https://example.com/photo.jpg">
+                </div>
+                <div class="form-group">
+                    <label for="profileBio">Bio</label>
+                    <textarea id="profileBio" name="bio" rows="3" maxlength="500"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="profileSkills">Skills (comma-separated)</label>
+                    <input type="text" id="profileSkills" name="skills" placeholder="JavaScript, React, Node.js">
+                </div>
+                <div class="form-group">
+                    <label for="profileInterests">Interests (comma-separated)</label>
+                    <input type="text" id="profileInterests" name="interests" placeholder="Technology, Travel, Music">
+                </div>
+                <h3>Current Job Information</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="currentJobTitle">Job Title</label>
+                        <input type="text" id="currentJobTitle" name="currentJob.title">
+                    </div>
+                    <div class="form-group">
+                        <label for="currentJobCompany">Company</label>
+                        <input type="text" id="currentJobCompany" name="currentJob.company">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="currentJobLocation">Location</label>
+                    <input type="text" id="currentJobLocation" name="currentJob.location">
+                </div>
+                <div class="form-group">
+                    <label for="currentJobDescription">Job Description</label>
+                    <textarea id="currentJobDescription" name="currentJob.description" rows="3"></textarea>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-outline" onclick="closeModal('profileModal')">Cancel</button>
+                    <button type="submit" class="btn">Update Profile</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Dashboard specific functions
+        document.addEventListener('DOMContentLoaded', function() {
+            loadDashboardData();
+        });
+        
+        async function loadDashboardData() {
+            await loadRecentActivity();
+            await loadDashboardEvents();
+            await loadRecentConnections();
+        }
+        
+        async function loadRecentActivity() {
+            const activityDiv = document.getElementById('recent-activity');
+            if (!activityDiv) return;
+            
+            // Sample activity data
+            const activities = [
+                {
+                    type: 'connection',
+                    message: 'New alumni joined the platform',
+                    time: '2 hours ago',
+                    icon: 'fas fa-user-plus'
+                },
+                {
+                    type: 'event',
+                    message: 'New event: Spring Reunion 2024',
+                    time: '1 day ago',
+                    icon: 'fas fa-calendar'
+                },
+                {
+                    type: 'news',
+                    message: 'Alumni achievement awards announced',
+                    time: '3 days ago',
+                    icon: 'fas fa-trophy'
+                }
+            ];
+            
+            activityDiv.innerHTML = activities.map(activity => `
+                <div style="display: flex; align-items: center; padding: 15px; background-color: #f8f9fa; border-radius: 8px; margin-bottom: 10px;">
+                    <div style="margin-right: 15px; color: var(--primary);">
+                        <i class="${activity.icon}"></i>
+                    </div>
+                    <div style="flex: 1;">
+                        <p style="margin: 0; font-weight: 500;">${activity.message}</p>
+                        <p style="margin: 0; font-size: 0.9rem; color: var(--muted);">${activity.time}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        async function loadDashboardEvents() {
+            const eventsDiv = document.getElementById('dashboard-events');
+            if (!eventsDiv) return;
+            
+            try {
+                const events = await apiCall('/events');
+                displayDashboardEvents(events.slice(0, 3)); // Show only first 3 events
+            } catch (error) {
+                // Show sample events if API fails
+                const sampleEvents = [
+                    {
+                        title: 'Alumni Networking Mixer',
+                        date: '2024-03-15',
+                        time: '6:00 PM',
+                        location: 'Campus Hall'
+                    },
+                    {
+                        title: 'Career Development Workshop',
+                        date: '2024-03-22',
+                        time: '2:00 PM',
+                        location: 'Virtual Event'
+                    }
+                ];
+                displayDashboardEvents(sampleEvents);
+            }
+        }
+        
+        function displayDashboardEvents(events) {
+            const eventsDiv = document.getElementById('dashboard-events');
+            if (!eventsDiv) return;
+            
+            eventsDiv.innerHTML = events.map(event => {
+                const eventDate = new Date(event.date);
+                const formattedDate = eventDate.toLocaleDateString('en-US', { 
+                    month: 'short', 
+                    day: 'numeric' 
+                });
+                
+                return `
+                    <div style="display: flex; align-items: center; padding: 15px; background-color: #f8f9fa; border-radius: 8px; margin-bottom: 10px;">
+                        <div style="margin-right: 15px; text-align: center; color: var(--primary);">
+                            <div style="font-size: 1.2rem; font-weight: bold;">${eventDate.getDate()}</div>
+                            <div style="font-size: 0.8rem;">${formattedDate.split(' ')[0]}</div>
+                        </div>
+                        <div style="flex: 1;">
+                            <h4 style="margin: 0 0 5px 0;">${event.title}</h4>
+                            <p style="margin: 0; font-size: 0.9rem; color: var(--muted);">
+                                <i class="fas fa-clock"></i> ${event.time} | 
+                                <i class="fas fa-map-marker-alt"></i> ${event.location}
+                            </p>
+                        </div>
+                        <button class="btn btn-small" onclick="registerForEvent('${event._id || event.title}')">Register</button>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        async function loadRecentConnections() {
+            const connectionsDiv = document.getElementById('recent-connections');
+            if (!connectionsDiv) return;
+            
+            // Sample connections data
+            const connections = [
+                {
+                    name: 'John Smith',
+                    graduation: 'Computer Science \'20',
+                    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80'
+                },
+                {
+                    name: 'Sarah Johnson',
+                    graduation: 'Business \'19',
+                    avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80'
+                }
+            ];
+            
+            connectionsDiv.innerHTML = connections.map(connection => `
+                <div style="display: flex; align-items: center; padding: 10px; background-color: #f8f9fa; border-radius: 8px; margin-bottom: 10px;">
+                    <img src="${connection.avatar}" alt="${connection.name}" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;">
+                    <div>
+                        <p style="margin: 0; font-weight: 500; font-size: 0.9rem;">${connection.name}</p>
+                        <p style="margin: 0; font-size: 0.8rem; color: var(--muted);">${connection.graduation}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Dashboard action functions
+        function updateProfile() {
+            showMessage('Profile update feature coming soon!', 'success');
+        }
+        
+        function addCareerUpdate() {
+            showMessage('Career update feature coming soon!', 'success');
+        }
+        
+        function findMentorship() {
+            window.location.href = 'mentorship.html';
+        }
+        
+        function createEvent() {
+            document.getElementById('eventModal').style.display = 'flex';
+        }
+        
+        function closeEventModal() {
+            document.getElementById('eventModal').style.display = 'none';
+            document.getElementById('eventForm').reset();
+        }
+        
+        // Event form submission
+        document.getElementById('eventForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const eventData = {
+                title: formData.get('title'),
+                description: formData.get('description'),
+                date: formData.get('date'),
+                time: formData.get('time'),
+                location: formData.get('location'),
+                address: formData.get('address'),
+                eventType: formData.get('eventType'),
+                maxAttendees: formData.get('maxAttendees') ? parseInt(formData.get('maxAttendees')) : null,
+                isVirtual: formData.get('isVirtual') === 'on',
+                virtualLink: formData.get('virtualLink') || ''
+            };
+            
+            try {
+                await addEvent(eventData);
+                closeEventModal();
+                loadUpcomingEvents();
+            } catch (error) {
+                // Error message already shown in addEvent function
+            }
+        });
+        
+        // Toggle virtual link field
+        document.getElementById('eventIsVirtual').addEventListener('change', function() {
+            const virtualLinkGroup = document.getElementById('virtualLinkGroup');
+            if (this.checked) {
+                virtualLinkGroup.style.display = 'block';
+            } else {
+                virtualLinkGroup.style.display = 'none';
+            }
+        });
+    </script>
+
+    <!-- Event Creation Modal -->
+    <div id="eventModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Create Event</h2>
+                <span class="close" onclick="closeEventModal()">&times;</span>
+            </div>
+            <form id="eventForm">
+                <div class="form-group">
+                    <label for="eventTitle">Event Title *</label>
+                    <input type="text" id="eventTitle" name="title" required>
+                </div>
+                <div class="form-group">
+                    <label for="eventDescription">Description *</label>
+                    <textarea id="eventDescription" name="description" rows="4" required></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="eventDate">Date *</label>
+                        <input type="date" id="eventDate" name="date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="eventTime">Time *</label>
+                        <input type="time" id="eventTime" name="time" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="eventLocation">Location *</label>
+                    <input type="text" id="eventLocation" name="location" required>
+                </div>
+                <div class="form-group">
+                    <label for="eventAddress">Address *</label>
+                    <input type="text" id="eventAddress" name="address" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="eventType">Event Type *</label>
+                        <select id="eventType" name="eventType" required>
+                            <option value="">Select Type</option>
+                            <option value="Networking">Networking</option>
+                            <option value="Workshop">Workshop</option>
+                            <option value="Reunion">Reunion</option>
+                            <option value="Conference">Conference</option>
+                            <option value="Social">Social</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="eventMaxAttendees">Max Attendees</label>
+                        <input type="number" id="eventMaxAttendees" name="maxAttendees" min="1">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="eventIsVirtual" name="isVirtual">
+                        Virtual Event
+                    </label>
+                </div>
+                <div class="form-group" id="virtualLinkGroup" style="display: none;">
+                    <label for="eventVirtualLink">Virtual Link</label>
+                    <input type="url" id="eventVirtualLink" name="virtualLink" placeholder="https://zoom.us/j/...">
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-outline" onclick="closeEventModal()">Cancel</button>
+                    <button type="submit" class="btn">Create Event</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
